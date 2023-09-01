@@ -1,0 +1,16 @@
+site_name: 'Project Documentation' # @TODO: Replace with Title
+
+nav:
+  - Introduction: 'README.md'
+  - 'Technical Documentation':
+    - Architecture: architecture.md
+    - Data Flow: dataflow.md
+    - Development: development.md
+    - Deployment: deployment.md
+    - Troubleshooting: troubleshooting.md
+  - 'Product / Milestone Documentation':
+    - 'Feature A': './features/example.md'
+    - 'Feature B': './features/example.md'
+
+plugins:
+  - techdocs-core

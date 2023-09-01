@@ -1,0 +1,87 @@
+# See https://backstage.io/docs/features/software-catalog/descriptor-format for full catalog-info.yml configurations.
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: github-starter
+  title: Github Starter
+  description: Base template for all repositories under the org thinkingmachines.
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+    github.com/project-slug: thinkingmachines/github-starter
+  tags: # see doc for list of tags: https://docs.google.com/document/d/1PT97wDuj31BZo87SKSw0YSPvRVzunh1lAJ4I4nPctBI/edit#heading=h.u8qvx8avf6he
+    - internal
+  links:
+    - url: https://thinkdatasci.slack.com/archives/C021699RE7K
+      title: Slack - Foundations Engineering Channel
+      icon: chat # see https://backstage.io/docs/reference/core-app-api.appicons for all icons
+#     - url: 
+#       title: Asana / JIRA / Scrum Board / Us
+#       icon: dashboard
+#     - url: 
+#       title: Wiki
+#       icon: docs
+#     - url: 
+#       title: Onboarding Document
+#       icon: docs
+#     - url:
+#       title: Runn
+#       icon: user
+#     - url: (insert retro output link here, this is not visible to anyone apart from attendees)
+#       title: Parabol - Phase 1 Sprint 1 Retro
+#       icon: dashboard
+#     - url:
+#       title: Meeting Notes
+#       icon: docs
+spec:
+  owner: user:levymedina
+  type: internal
+  lifecycle: experimental
+  parameters:
+    - title: Create a new thinkingmachines repository
+      required:
+        - repoUrl
+        - description
+      properties:
+        repoUrl:
+          title: Repository Name
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+            allowedOwners:
+              - thinkingmachines
+        description:
+          title: Repository Description
+          type: string
+          description: Describe repository in 1 to 2 sentences
+          ui:autofocus: true
+  #only needed for component: Template types of repos
+  steps:
+    - id: fetch-base
+      name: Fetch Base
+      action: fetch:template
+      input:
+        url: .
+        values:
+          owner: thinkingmachines
+  
+    - id: publish
+      name: Publish
+      action: publish:github
+      input:
+        allowedHosts: ['github.com']
+        description: 
+        repoUrl: 
+        gitAuthorName: 
+        gitAuthorEmail: 
+        collaborators:
+        - user: 
+          access: admin
+  
+    - id: register
+      name: Register
+      action: catalog:register
+      input:
+        repoContentsUrl: 
+        catalogInfoPath: '/catalog-info.yml'
